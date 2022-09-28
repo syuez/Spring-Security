@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>影视直播厅</title>
+</head>
+<body>
+
+<h1>欢迎进入电影网站首页</h1>
+<hr />
+<h3>普通电影</h3>
+<ul>
+    <li><a th:href="@{/detail/common/1}">我不是药神</a></li>
+    <li><a th:href="@{/detail/common/2}">夏洛特烦恼</a></li>
+</ul>
+<h3>VIP 专享</h3>
+<ul>
+    <li><a th:href="@{/detail/vip/1}">速度与激情</a></li>
+    <li><a th:href="@{/detail/vip/2}">猩球崛起</a></li>
+</ul>
+
+</body>
+</html>
