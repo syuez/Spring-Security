@@ -47,16 +47,25 @@ public class SecurityConfig  {
         http.authorizeHttpRequests()
                 // 开启 Ant 风格的路径匹配，并且对于 "/" 路径的请求无条件进行放行
                 .antMatchers("/").permitAll()
+                // 需要对 static 文件夹下静态资源进行统一放行
+                .antMatchers("/login/**").permitAll()
                 // hasRole 匹配用户是否有某一个角色，也可以用 hasAnyRole 来匹配多个角色
                 .antMatchers("/detail/common/**").hasRole("common")
                 .antMatchers("/detail/vip/**").hasRole("vip")
                 // 匹配任何请求，并匹配已经登录认证的用户
                 // 这里表示除了上述的请求外，其他请求则要求用户必须先进行登录认证
-                .anyRequest().authenticated()
-                // 功能连接符
-                .and()
-                // 开启基于表单的用户登录
-                .formLogin();
+                .anyRequest().authenticated();
+
+        // 自定义用户登录控制
+        http.formLogin()
+                // 指定了向自定义登录页面跳转的请求路径，并对其无条件放行
+                .loginPage("/userLogin").permitAll()
+                // 用来接收提交的用户名和密码
+                .usernameParameter("username").passwordParameter("password")
+                // 登录成功后默认跳转的路径
+                .defaultSuccessUrl("/")
+                // 登录失败后跳转的路径
+                .failureUrl("/userLogin?error");
 
         return http.build();
     }
