@@ -12,11 +12,16 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+
+import javax.sql.DataSource;
 
 @EnableWebSecurity
 public class SecurityConfig  {
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
+    @Autowired
+    private DataSource dataSource;
     /*
     * 从 Spring Security 5 开始，自定义用户认证必须设置密码编码器用于保护密码，否则会报错。
     * Spring Security 提供了多种密码编码器，包括 BCryptPasswordEncoder、Pbkdf2PasswordEncoder、ScryptPasswordEncoder 等。
@@ -72,8 +77,26 @@ public class SecurityConfig  {
                 .logoutUrl("/mylogout")
                 .logoutSuccessUrl("/");
 
+        // 定制 Remember-me 记住我功能
+        http.rememberMe()
+                .rememberMeParameter("rememberme")
+                .tokenValiditySeconds(200)
+                // 对 Cookie 信息进行持久化管理
+                .tokenRepository(tokenRepository());
+
         return http.build();
     }
+
+    /**
+     * 持久化 Token 存储
+     */
+    @Bean
+    public JdbcTokenRepositoryImpl tokenRepository() {
+        JdbcTokenRepositoryImpl jr = new JdbcTokenRepositoryImpl();
+        jr.setDataSource(dataSource);
+        return jr;
+    }
+
     /*
     * 内存身份认证
     * 主要用于 Security 安全认证体验和测试
