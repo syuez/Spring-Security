@@ -46,7 +46,7 @@ public class SecurityConfig  {
         // 开启基于 HttpServletRequest 请求访问限制
         http.authorizeHttpRequests()
                 // 开启 Ant 风格的路径匹配，并且对于 "/" 路径的请求无条件进行放行
-                .antMatchers("/").permitAll()
+                .antMatchers("/","/getUserBySession").permitAll()
                 // 需要对 static 文件夹下静态资源进行统一放行
                 .antMatchers("/login/**").permitAll()
                 // hasRole 匹配用户是否有某一个角色，也可以用 hasAnyRole 来匹配多个角色
