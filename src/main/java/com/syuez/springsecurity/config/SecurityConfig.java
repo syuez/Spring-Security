@@ -67,6 +67,11 @@ public class SecurityConfig  {
                 // 登录失败后跳转的路径
                 .failureUrl("/userLogin?error");
 
+        // 自定义用户退出控制
+        http.logout()
+                .logoutUrl("/mylogout")
+                .logoutSuccessUrl("/");
+
         return http.build();
     }
     /*

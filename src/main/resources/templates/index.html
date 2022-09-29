@@ -8,6 +8,11 @@
 <body>
 
 <h1>欢迎进入电影网站首页</h1>
+<!-- Spring Boot 引入 Spring Security 后会自动开启 CSRF 防护功能，
+ 用户退出时必须使用 Post 请求；如果关闭了 CSRF 防护功能，那么可以使用任意方式的 HTTP 请求进行用户注销 -->
+<form th:action="@{/mylogout}" method="post">
+    <input th:type="submit" th:value="注销" />
+</form>
 <hr />
 <h3>普通电影</h3>
 <ul>
