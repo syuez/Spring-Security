@@ -17,8 +17,8 @@ public class CaptchaConfig {
         Properties properties = new Properties();
         properties.setProperty("kaptcha.images.width", "150");
         properties.setProperty("kaptcha.images.height", "50");
-        properties.setProperty("kaptcha.textproducer.char.string", "0123456789");
-        properties.setProperty("kaptcha.textproducer.char.length", "4");
+        properties.setProperty("kaptcha.textproducer.char.string", "abcdefghijklmnopqrstuvwxyz0123456789");
+        properties.setProperty("kaptcha.textproducer.char.length", "5");
 
         Config config = new Config(properties);
         DefaultKaptcha defaultKaptcha = new DefaultKaptcha();
