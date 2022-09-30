@@ -1,9 +1,12 @@
 package com.syuez.springsecurity.config;
 
+import com.syuez.springsecurity.common.KaptchaAuthenticationProvider;
 import com.syuez.springsecurity.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -26,9 +29,22 @@ public class SecurityConfig  {
     * 从 Spring Security 5 开始，自定义用户认证必须设置密码编码器用于保护密码，否则会报错。
     * Spring Security 提供了多种密码编码器，包括 BCryptPasswordEncoder、Pbkdf2PasswordEncoder、ScryptPasswordEncoder 等。
     * */
-    @Bean(name = "bCryptPasswordEncoder")
+    @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    AuthenticationProvider kaptchaAuthenticationProvider() {
+        KaptchaAuthenticationProvider provider = new KaptchaAuthenticationProvider();
+        provider.setUserDetailsService(userDetailsService);
+        provider.setPasswordEncoder(bCryptPasswordEncoder());
+        return provider;
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManagerBean() {
+        return new ProviderManager(kaptchaAuthenticationProvider());
     }
 
     /*
@@ -38,9 +54,8 @@ public class SecurityConfig  {
     public AuthenticationManager authManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder)
             throws Exception {
         return http.getSharedObject(AuthenticationManagerBuilder.class)
-                .userDetailsService(userDetailsService)
-                .passwordEncoder(bCryptPasswordEncoder)
-                .and()
+                .authenticationProvider(kaptchaAuthenticationProvider())
+                .parentAuthenticationManager(authenticationManagerBean())
                 .build();
     }
     /*
@@ -54,6 +69,8 @@ public class SecurityConfig  {
                 .antMatchers("/","/getUserBySession").permitAll()
                 // 需要对 static 文件夹下静态资源进行统一放行
                 .antMatchers("/login/**").permitAll()
+                // 对验证码请求放行
+                .antMatchers("/captcha.jpg").permitAll()
                 // hasRole 匹配用户是否有某一个角色，也可以用 hasAnyRole 来匹配多个角色
                 .antMatchers("/detail/common/**").hasRole("common")
                 .antMatchers("/detail/vip/**").hasRole("vip")
