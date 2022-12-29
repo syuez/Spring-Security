@@ -51,7 +51,7 @@ public class SecurityConfig  {
     * UserDetailsService 身份认证
     * */
     @Bean
-    public AuthenticationManager authManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder)
+    public AuthenticationManager authManager(HttpSecurity http)
             throws Exception {
         return http.getSharedObject(AuthenticationManagerBuilder.class)
                 .authenticationProvider(kaptchaAuthenticationProvider())

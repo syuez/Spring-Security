@@ -19,7 +19,7 @@ public class KaptchaAuthenticationProvider extends DaoAuthenticationProvider {
         HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String kaptcha = req.getParameter("captcha");
         String sessionKaptcha = (String) req.getSession().getAttribute("captcha");
-        if (kaptcha != null && sessionKaptcha != null && kaptcha.equalsIgnoreCase(sessionKaptcha)) {
+        if (kaptcha != null && kaptcha.equalsIgnoreCase(sessionKaptcha)) {
             return super.authenticate(authentication);
         }
         throw new AuthenticationServiceException("验证码输入错误");

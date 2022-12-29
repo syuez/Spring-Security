@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -19,9 +19,9 @@
         <!-- 在页面上显示 Spring Security 验证的错误信息 -->
         <img th:src="@{/login/img/loginError.jpg}" width="20px"><span th:text="${session[SPRING_SECURITY_LAST_EXCEPTION].message}" ></span>
     </div>
-    <input type="text" name="username" class="form-control" placeholder="用户名" required="" autofocus="">
-    <input type="password" name="password" class="form-control" placeholder="密码" required="">
-    <input type="text" name="captcha" class="form-control" placeholder="验证码">
+    <input type="text" name="username" class="form-control" placeholder="用户名" required autofocus="">
+    <input type="password" name="password" class="form-control" placeholder="密码" required>
+    <input type="text" name="captcha" class="form-control" placeholder="验证码" required minlength="5" maxlength="5">
     <img class="mt-2" id="verification" th:src="@{/captcha.jpg}" alt="captcha" height="50px" width="150px" title="看不清？换一张">
     <div class="checkbox mb-3">
         <label>
