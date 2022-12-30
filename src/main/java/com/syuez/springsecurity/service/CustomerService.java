@@ -1,6 +1,6 @@
 package com.syuez.springsecurity.service;
 
-import com.syuez.springsecurity.entity.Authority;
+import com.syuez.springsecurity.entity.Authorities;
 import com.syuez.springsecurity.entity.Customer;
 import com.syuez.springsecurity.repository.AuthorityRepository;
 import com.syuez.springsecurity.repository.CustomerRepository;
@@ -49,11 +49,11 @@ public class CustomerService {
      * 业务控制：使用唯一用户名查询用户权限
      * @param username 用户名
      */
-    public List<Authority> getCustomerAuthority(String username) {
-        List<Authority> authorities = null;
+    public List<Authorities> getCustomerAuthority(String username) {
+        List<Authorities> authorities = null;
         Object object = redisTemplate.opsForValue().get("authorities_" + username);
         if(object == null) {
-            Optional<List<Authority>> optional = Optional.ofNullable(authorityRepository.findAuthoritiesByUsername(username));
+            Optional<List<Authorities>> optional = Optional.ofNullable(authorityRepository.findAuthoritiesByUsername(username));
             if(optional.isPresent()) {
                 authorities = optional.get();
                 if(!authorities.isEmpty()) {
@@ -61,7 +61,7 @@ public class CustomerService {
                 }
             }
         } else {
-            authorities = (List<Authority>) object;
+            authorities = (List<Authorities>) object;
         }
 
         return authorities;

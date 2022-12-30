@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Data
 @Entity(name = "t_authority ")
-public class Authority {
+public class Authorities {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

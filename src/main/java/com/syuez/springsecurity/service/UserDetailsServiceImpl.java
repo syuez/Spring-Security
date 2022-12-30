@@ -1,6 +1,6 @@
 package com.syuez.springsecurity.service;
 
-import com.syuez.springsecurity.entity.Authority;
+import com.syuez.springsecurity.entity.Authorities;
 import com.syuez.springsecurity.entity.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -30,7 +30,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // 通过业务方法获取用户及权限
         Customer customer = service.getCustomer(username);
-        List<Authority> authorities = service.getCustomerAuthority(username);
+        List<Authorities> authorities = service.getCustomerAuthority(username);
 
         // 对用户权限进行封装
         List<SimpleGrantedAuthority> list = authorities.stream().map(authority -> new SimpleGrantedAuthority(authority.getAuthority()))

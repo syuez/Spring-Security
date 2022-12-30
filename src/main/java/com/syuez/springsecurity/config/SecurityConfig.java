@@ -10,10 +10,7 @@ import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 
@@ -114,31 +111,4 @@ public class SecurityConfig  {
         return jr;
     }
 
-    /*
-    * 内存身份认证
-    * 主要用于 Security 安全认证体验和测试
-    * */
-//    @Bean
-//    public UserDetailsService userDetailsService(BCryptPasswordEncoder bCryptPasswordEncoder) {
-//        // 使用内存用户信息，作为测试使用
-//        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-//        /*
-//        * 自定义用户认证时，可以定义用户角色 roles，也可以定义用户权限 authorities。
-//        * 在进行赋值时，权限通常是在角色值的基础上添加 "ROLE_" 前缀。例如，authorities("ROLE_common")
-//        * 和 roles("common")是等效的。
-//        * */
-//        manager.createUser(User.withUsername("shitou")
-//                .password(bCryptPasswordEncoder.encode("123456"))
-//                .roles("common")
-//                .build());
-//        /*
-//        * 自定义用户认证时，可以为某用户一次指定多个角色或权限，例如 roles("common","vip")或者 authorities("ROLE_common","ROLE_vip")。
-//        * */
-//        manager.createUser(User.withUsername("李四")
-//                .password(bCryptPasswordEncoder.encode("123456"))
-//                .roles("vip")
-//                .build());
-//
-//        return manager;
-//    }
 }
